@@ -1,86 +1,56 @@
 package Games.Hangman;
 
-public class HangmanGame extends Game {
-    private String hint;  // ฟิลด์สำหรับเก็บคำใบ้
+import Games.Game;
 
-    // Constructor ที่เพิ่มคำใบ้
-    public HangmanGame(String wordToGuess, String hint, int attempts) {
-        super(wordToGuess, attempts);
-        this.hint = hint;
-    }
+import java.util.Scanner;
+import java.util.Random;
 
-    // แสดงคำใบ้เมื่อเริ่มเกม
-    public void showHint() {
-        System.out.println("Hint: " + hint);
+public class HangmanGame implements Game {
+    public String getName() {
+        return "Hangman";
     }
 
     @Override
-    public void playTurn(String guess) {
-        // ตรวจสอบว่าผู้เล่นป้อนคำทั้งคำหรือไม่
-        if (guess.length() > 1) {
-            // ตรวจสอบว่าคำที่ป้อนตรงกับคำตอบที่ถูกต้องหรือไม่
-            if (guess.equalsIgnoreCase(wordToGuess)) {
-                guessedWord = wordToGuess.toCharArray(); // แสดงคำทั้งหมดที่ถูกต้อง
-                System.out.println("Correct! You've guessed the whole word: " + wordToGuess);
-            } else {
-                attempts--;
-                System.out.println("Wrong guess! Attempts left: " + attempts);
-                displayHangman();
-            }
-        } else {
-            // หากผู้เล่นป้อนเพียงแค่ตัวอักษรเดียว (เล่นตามปกติ)
-            char letterGuess = Character.toLowerCase(guess.charAt(0)); // แปลงตัวอักษรเป็นพิมพ์เล็ก
-            boolean correct = false;
+    public void start() {
+        // สร้างผู้เล่น
+        Player player = new Player("Player 1");
+        System.out.println("Welcome " + player.getName() + "!");
 
-            for (int i = 0; i < wordToGuess.length(); i++) {
-                if (Character.toLowerCase(wordToGuess.charAt(i)) == letterGuess) { // เปรียบเทียบโดยไม่สนใจพิมพ์เล็กพิมพ์ใหญ่
-                    guessedWord[i] = wordToGuess.charAt(i); // เก็บตัวอักษรที่ทายถูกตามรูปแบบเดิม (พิมพ์เล็กหรือใหญ่)
-                    correct = true;
-                }
-            }
+        // อาร์เรย์ของคำที่ใช้ทายและคำใบ้
+        String[] words = { "JAVA", "PYTHON", "COMPUTER", "HANGMAN", "DEVELOPER" };
+        String[] hints = {
+                "A popular programming language.",
+                "A programming language named after a snake.",
+                "A machine that processes data.",
+                "A word guessing game.",
+                "A person who writes computer programs."
+        };
 
-            if (!correct) {
-                attempts--;
-                System.out.println("Wrong guess! Attempts left: " + attempts);
-                displayHangman();
-            } else {
-                System.out.println("Correct! Current word: " + String.valueOf(guessedWord));
-            }
+        // สุ่มคำและคำใบ้
+        Random random = new Random();
+        int randomIndex = random.nextInt(words.length); // สุ่ม index ของคำและคำใบ้
+
+        String word = words[randomIndex];
+        String hint = hints[randomIndex];
+
+        // สร้างเกม Games.Hangman และตั้งค่าคำใบ้ที่สุ่มมา
+        Hangman game = new Hangman(word, hint, 6); // ผู้เล่นมีโอกาสทาย 6 ครั้ง
+
+        // แสดงคำใบ้
+        game.showHint();
+
+        Scanner scanner = new Scanner(System.in);
+        while (!game.isGameOver()) {
+            System.out.print("Guess a letter or the whole word: ");
+            String guess = scanner.next(); // รับคำทายจากผู้เล่น (รับเป็น String แทน char)
+            game.playTurn(guess);
         }
-    }
 
-    // ฟังก์ชันสำหรับแสดง Games.Hangman ตามจำนวนครั้งที่เหลือ
-    public void displayHangman() {
-        switch (attempts) {
-            case 5:
-                System.out.println(" O ");
-                break;
-            case 4:
-                System.out.println(" O ");
-                System.out.println(" | ");
-                break;
-            case 3:
-                System.out.println(" O ");
-                System.out.println(" | ");
-                System.out.println("/  ");
-                break;
-            case 2:
-                System.out.println(" O ");
-                System.out.println(" | ");
-                System.out.println("/ \\");
-                break;
-            case 1:
-                System.out.println(" O ");
-                System.out.println("\\| ");
-                System.out.println("/ \\");
-                break;
-            case 0:
-                System.out.println(" O ");
-                System.out.println("\\|/");
-                System.out.println("/ \\");
-                System.out.println("Game over! The man is hanged.");
-                break;
+        // แสดงผลลัพธ์เมื่อเกมจบ
+        if (String.valueOf(game.guessedWord).equals(game.wordToGuess)) {
+            System.out.println("Congratulations! You've guessed the word: " + game.wordToGuess);
+        } else {
+            System.out.println("Game over! The word was: " + game.wordToGuess);
         }
     }
 }
-

@@ -1,65 +1,43 @@
 package Games;
 
-import Games.TicTacToe.*;
-import Games.WordMatch.*;
-import Games.Hangman.*;
-import Games.RockPaperScissors.*;
+import Games.Hangman.HangmanGame;
+import Games.TicTacToe.TicTacToeGame;
+import Games.WordMatch.WordGuessingGame;
+import Games.RockPaperScissors.RockGame;
+import Games.Simon.SimonGame;
 
 import java.util.ArrayList;
-import java.util.InputMismatchException;
 import java.util.Scanner;
 
 public class GamesManager {
-    private final ArrayList<String> gameList;
+    private final ArrayList<Game> gameList = new ArrayList<>();
 
     public GamesManager() {
-        gameList = new ArrayList<>();
-        initializeGames();
+        setGameList();
     }
-
     // Add available games to the list
-    private void initializeGames() {
-        gameList.add("Tic-Tac-Toe");
-        gameList.add("Word Match");
-        gameList.add("Hangman");
-        gameList.add("Rock Paper Scissors");
+    private void setGameList() {
+        gameList.add(new TicTacToeGame());
+        gameList.add(new WordGuessingGame());
+        gameList.add(new HangmanGame());
+        gameList.add(new RockGame());
+        gameList.add(new SimonGame());
+
     }
 
     // Display available games
     public void displayAvailableGames() {
         System.out.println("Available Games:");
         for (int i = 0; i < gameList.size(); i++) {
-            System.out.println((i + 1) + ". " + gameList.get(i));
+            System.out.println((i + 1) + ". " + gameList.get(i).getName());
         }
     }
 
     // Start the game selected by the user
     public void startGame(int choice) {
         if (choice > 0 && choice <= gameList.size()) {
-            String selectedGame = gameList.get(choice - 1);
-            System.out.println("Starting " + selectedGame + "...");
-
-            switch (selectedGame) {
-                case "Tic-Tac-Toe":
-                    TicTacToeGame ticTacToe = new TicTacToeGame();
-                    ticTacToe.start();
-                    break;
-                case "Word Match":
-                    WordGuessingGame wordMatch = new WordGuessingGame();
-                    wordMatch.start();
-                    break;
-                case "Hangman":
-                    HangmanGameMain hangman = new HangmanGameMain();
-                    hangman.start();
-                    break;
-                case "Rock Paper Scissors":
-                    ROck rockPaperScissors = new ROck();
-                    rockPaperScissors.start();
-                    break;
-                default:
-                    System.out.println("Invalid game choice.");
-                    break;
-            }
+            Game selectedGame = gameList.get(choice - 1);
+            selectedGame.start();  // Call the start method for the selected game
         } else {
             System.out.println("Invalid choice. Please select a valid game.");
         }
@@ -89,3 +67,6 @@ public class GamesManager {
         }
     }
 }
+
+
+

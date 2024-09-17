@@ -1,7 +1,8 @@
 package Games.TicTacToe;
+import java.util.Random;
 
 public class TicTacToe {
-    private char[][] board;
+    private final char[][] board;
     private char currentPlayer;
 
     public TicTacToe() {
@@ -52,7 +53,7 @@ public class TicTacToe {
     // ตรวจสอบว่าแถวใดแถวหนึ่งมีผู้ชนะหรือไม่
     private boolean checkRowsForWin() {
         for (int i = 0; i < 3; i++) {
-            if (checkRowCol(board[i][0], board[i][1], board[i][2]) == true) {
+            if (checkRowCol(board[i][0], board[i][1], board[i][2])) {
                 return true;
             }
         }
@@ -62,7 +63,7 @@ public class TicTacToe {
     // ตรวจสอบว่าแนวตั้งใดแนวหนึ่งมีผู้ชนะหรือไม่
     private boolean checkColumnsForWin() {
         for (int i = 0; i < 3; i++) {
-            if (checkRowCol(board[0][i], board[1][i], board[2][i]) == true) {
+            if (checkRowCol(board[0][i], board[1][i], board[2][i])) {
                 return true;
             }
         }
@@ -71,8 +72,8 @@ public class TicTacToe {
 
     // ตรวจสอบว่าแนวทแยงใดแนวหนึ่งมีผู้ชนะหรือไม่
     private boolean checkDiagonalsForWin() {
-        return ((checkRowCol(board[0][0], board[1][1], board[2][2]) == true) ||
-                (checkRowCol(board[0][2], board[1][1], board[2][0]) == true));
+        return ((checkRowCol(board[0][0], board[1][1], board[2][2])) ||
+                (checkRowCol(board[0][2], board[1][1], board[2][0])));
     }
 
     // ตรวจสอบว่าเครื่องหมายในตำแหน่งที่กำหนดเหมือนกันทั้งหมดหรือไม่
@@ -99,4 +100,17 @@ public class TicTacToe {
     public char getCurrentPlayer() {
         return currentPlayer;
     }
+
+    public void botMove() {
+        Random random = new Random();
+        int row, col;
+        do {
+            row = random.nextInt(3);
+            col = random.nextInt(3);
+        } while (board[row][col] != '-'); // Find an empty spot
+
+        board[row][col] = currentPlayer;
+        System.out.println("Bot has placed its mark at position (" + row + ", " + col + ")");
+    }
+
 }

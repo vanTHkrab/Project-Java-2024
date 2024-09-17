@@ -1,9 +1,17 @@
 package Games.WordMatch;
 
+import Games.Game;
+
+import java.util.Arrays;
 import java.util.Scanner;
 import java.util.Random;
 
-public class WordGuessingGame {
+public class WordGuessingGame implements Game {
+    public String getName() {
+        return "Word Guessing Game";
+    }
+
+    @Override
     public void start() {
         String[] animals = {"cat", "dog", "elephant", "lion", "tiger", "giraffe", "zebra",
                 "kangaroo", "panda", "whale", "dolphin", "shark", "eagle",
@@ -19,7 +27,7 @@ public class WordGuessingGame {
 
         Scanner scanner = new Scanner(System.in);
         Random random = new Random();
-        String selectedWord = "";
+        String selectedWord;
 
         System.out.println("Choose a category:");
         System.out.println("1. Animals");
@@ -53,9 +61,7 @@ public class WordGuessingGame {
         System.out.println("The word has " + selectedWord.length() + " letters.");
 
         char[] revealedLetters = new char[selectedWord.length()];
-        for (int i = 0; i < revealedLetters.length; i++) {
-            revealedLetters[i] = '_';
-        }
+        Arrays.fill(revealedLetters, '_');
 
         while (!wordGuessed) {
             System.out.println("Current word: " + String.valueOf(revealedLetters));
