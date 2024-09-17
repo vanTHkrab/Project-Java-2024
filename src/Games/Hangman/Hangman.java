@@ -1,7 +1,7 @@
 package Games.Hangman;
 
 public class Hangman extends Game {
-    private String hint;  // ฟิลด์สำหรับเก็บคำใบ้
+    private final String hint;  // ฟิลด์สำหรับเก็บคำใบ้
 
     // Constructor ที่เพิ่มคำใบ้
     public Hangman(String wordToGuess, String hint, int attempts) {
