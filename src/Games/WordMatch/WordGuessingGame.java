@@ -35,6 +35,7 @@ public class WordGuessingGame implements Game {
         System.out.println("3. Foods");
         System.out.print("Enter your choice (1/2/3): ");
         int choice = scanner.nextInt();
+
         switch (choice) {
             case 1:
                 selectedWord = animals[random.nextInt(animals.length)];
@@ -73,17 +74,26 @@ public class WordGuessingGame implements Game {
                 attempts++;
                 System.out.println("Congratulations! You guessed the word '" + selectedWord + "' in " + attempts + " attempt(s).");
             } else {
-                System.out.println("Wrong guess! Try again.");
-                attempts++;
-                wrongAttempts++;
+                if (!String.valueOf(revealedLetters).equals(selectedWord)) {
+                    System.out.println("Wrong guess! Try again.");
+                    attempts++;
+                    wrongAttempts++;
 
-                if (wrongAttempts == 3) {
-                    revealLetter(selectedWord, revealedLetters);
-                    wrongAttempts = 0;
-                    System.out.println("Hint: One letter has been revealed!");
+                    if (wrongAttempts == 3) {
+                        revealLetter(selectedWord, revealedLetters);
+                        wrongAttempts = 0;
+                        System.out.println("Hint: One letter has been revealed!");
+                    }
+                }
+
+                if (String.valueOf(revealedLetters).equals(selectedWord)) {
+                    System.out.println("The correct word was: " + selectedWord);
+                    wordGuessed = true;
                 }
             }
         }
+
+        scanner.close();
     }
 
     public static void revealLetter(String word, char[] revealedLetters) {
