@@ -93,7 +93,8 @@ public class WordGuessingGame implements Game {
             }
         }
 
-        scanner.close();
+
+
     }
 
     public static void revealLetter(String word, char[] revealedLetters) {

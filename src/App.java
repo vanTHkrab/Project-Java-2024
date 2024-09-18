@@ -1,4 +1,3 @@
-import Games.Simon.SimonGame;
 import Users.UserManager;
 import Games.GamesManager;
 
@@ -25,6 +24,7 @@ public class App {
 
             switch (choice) {
                 case 1:
+                    System.out.println("Username: user1, Password: password1");
                     int index = userManager.login();
                     if (index != -1) {
                         System.out.println("Login successful!\nWelcome to the Game Console.");
@@ -54,7 +54,7 @@ public class App {
 
     public static void playSound() {
         try {
-            URL soundURL = SimonGame.class.getResource("/assets/sound/wax-background.wav"); // Load the sound file
+            URL soundURL = App.class.getResource("/assets/sound/wax-background.wav"); // Load the sound file
             assert soundURL != null; // Check if the sound file exists
             AudioInputStream audioInput = AudioSystem.getAudioInputStream(soundURL); // Create an audio input stream
             Clip clip = AudioSystem.getClip(); // Create a clip

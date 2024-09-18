@@ -93,8 +93,7 @@ public class SimonGameGUI extends JFrame implements Game {
             waitingForPlayerInput = true;
             playerIndex = 0;
             gameStatus.append("It's your turn! Please select a color.\n");
-        });
-    }
+        });    }
 
     private void handlePlayerChoice(String color) {
         if (!waitingForPlayerInput) return;
